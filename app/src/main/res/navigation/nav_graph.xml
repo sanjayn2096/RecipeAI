@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.sunj.recipeai.fragments.LandingFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_landingFragment_to_moodFragment"
+            app:destination="@id/moodFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/moodFragment"
+        android:name="com.sunj.recipeai.fragments.MoodFragment"
+        tools:layout="@layout/fragment_mood">
+        <action
+            android:id="@+id/action_moodFragment_to_dietRestrictionsFragment"
+            app:destination="@id/dietRestrictionsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dietRestrictionsFragment"
+        android:name="com.sunj.recipeai.fragments.DietaryRestrictionFragment"
+        tools:layout="@layout/fragment_dietary_restriction">
+        <action
+            android:id="@+id/action_dietRestrictionsFragment_to_cuisineFragment"
+            app:destination="@id/cuisinePreferenceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cuisinePreferenceFragment"
+        android:name="com.sunj.recipeai.fragments.CuisinePreferenceFragment"
+        tools:layout="@layout/fragment_cuisine_preference">
+        <action
+            android:id="@+id/action_cuisinePreferenceFragment_to_cookingPreferencesFragment"
+            app:destination="@id/cookingPreferencesFragment" />
+        <action
+            android:id="@+id/action_cuisinePreferenceFragment_to_moodPreferenceFragment"
+            app:destination="@id/moodFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cookingPreferencesFragment"
+        android:name="com.sunj.recipeai.fragments.CookingPreferencesFragment"
+        tools:layout="@layout/fragment_cooking_preference">
+    </fragment>
+
+</navigation>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">RecipeAI</string>
+    <string name="happy_excited">Happy/Excited</string>
+    <string name="sad_tired">Sad/Tired</string>
+    <string name="not_hungry">Not Hungry</string>
+    <string name="how_are_you_feeling_today">How are you feeling today?</string>
+    <string name="next">Next</string>
+    <string name="neutral">Neutral</string>
+    <string name="let_s_cook_something_nice_today">Let\'s cook something nice today</string>
+    <string name="do_you_have_any_dietary_restrictions">Do you have any Dietary Restrictions?</string>
+    <string name="indian_cuisine">Indian</string>
+    <string name="mexican">Mexican</string>
+    <string name="chinese">Chinese</string>
+    <string name="thai">Thai</string>
+    <string name="surprise_me_with_anything">Surprise Me with anything!</string>
+    <string name="korean">Korean</string>
+    <string name="what_cuisine_do_you_feel_like_eating_today">What Cuisine do you feel like eating today?</string>
+    <string name="_10_minutes"><![CDATA[< 10 Minutes]]></string>
+    <string name="_10_30_minutes">10 – 30 Minutes</string>
+    <string name="_30_60_minutes">30 – 60 Minutes</string>
+    <string name="_60_minutes"><![CDATA[> 60 Minutes]]></string>
+    <string name="how_much_time_do_you_like_to_spend_on_cooking">How much time do you like to spend on Cooking?</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="vegan">Vegan</string>
+    <string name="pescitarian">Pescitarian</string>
+    <string name="non_vegetarian_without_red_meat">Non Vegetarian Without Red Meat</string>
+    <string name="gluten_free">Gluten Free</string>
+    <string name="no_restrictions">No Restrictions</string>
+    <string name="sending_some_tasty_recipes_your_way">Sending some tasty recipes your way…</string>
+    <string name="recipe_instructions">Recipe Instructions</string>
+    <string name="back">Back</string>
+    <string name="fetch_more_recipes">Fetch More Recipes</string>
+    <string name="fetch_recipes">Fetch Recipes</string>
+    <string name="edit_preferences">Edit Preferences</string>
+    <string name="refresh">Refresh</string>
+</resources>
