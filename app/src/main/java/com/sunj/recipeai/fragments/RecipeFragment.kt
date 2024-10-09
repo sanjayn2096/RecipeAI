@@ -5,10 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.Scroller
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.sunj.recipeai.R
@@ -54,9 +51,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
         recipeName.text = recipe.recipeName
         recipeImage.setImageResource(R.drawable.food_pic)
-        //recipeInstructions.movementMethod = android.text.method.ScrollingMovementMethod()
         recipeInstructions.text = recipe.instructions
-        //ingredients.movementMethod = android.text.method.ScrollingMovementMethod()
         ingredients.text = recipe.ingredients
 
 

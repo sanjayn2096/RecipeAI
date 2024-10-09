@@ -28,12 +28,8 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radioButton_vegetarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +38,7 @@
             android:text="@string/vegetarian"
             android:textStyle="bold" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radioButton_vegan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +47,7 @@
             android:text="@string/vegan"
             android:textStyle="bold" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radioButton_pescitarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +56,7 @@
             android:text="@string/pescitarian"
             android:textStyle="bold" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radioButton_non_vegetarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +65,7 @@
             android:text="@string/non_vegetarian_without_red_meat"
             android:textStyle="bold" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radioButton_gluten_free"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +74,7 @@
             android:text="@string/gluten_free"
             android:textStyle="bold" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radioButton_no_restrictions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +82,6 @@
             android:layout_marginTop="10sp"
             android:text="@string/no_restrictions"
             android:textStyle="bold" />
-    </RadioGroup>
 
 
     <Button

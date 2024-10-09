@@ -22,6 +22,7 @@ class MoodFragment : Fragment(R.layout.fragment_mood) {
 
         // Find the button by its ID
         val nextButton: Button = view.findViewById(R.id.Button_next_mood)
+        nextButton.setBackgroundResource(R.drawable.button_resource);
         val backButton: ImageButton = view.findViewById(R.id.back_button_mood)
 
         // Set a click listener for the button
@@ -45,7 +46,7 @@ class MoodFragment : Fragment(R.layout.fragment_mood) {
         }
 
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStackImmediate()
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }

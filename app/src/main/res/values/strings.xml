@@ -33,4 +33,5 @@
     <string name="fetch_recipes">Fetch Recipes</string>
     <string name="edit_preferences">Edit Preferences</string>
     <string name="refresh">Refresh</string>
+    <string name="recipeai">RecipeAI</string>
 </resources>

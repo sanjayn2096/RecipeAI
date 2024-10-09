@@ -42,14 +42,12 @@ class CookingPreferencesFragment : Fragment(R.layout.fragment_cooking_preference
                 putString("selected_cooking_preference", cookingPreference)
                 commit()
             }
-            // Optional: Show a confirmation toast
-            Toast.makeText(requireContext(), "Cooking Preference saved: $cookingPreference", Toast.LENGTH_SHORT).show()
 
             this.startActivity(Intent(requireContext(), RecipeActivity::class.java))
         }
 
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStackImmediate()
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }

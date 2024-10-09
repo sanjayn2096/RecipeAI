@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.Toast
@@ -25,26 +26,30 @@ class DietaryRestrictionFragment : Fragment(R.layout.fragment_dietary_restrictio
         val nextButton: Button = view.findViewById(R.id.Button_next_dietary_restrictions)
         val backButton: ImageButton = view.findViewById(R.id.back_button_dietary_preferences)
 
+        val mood: String = ""
         // Set a click listener for the button
         nextButton.setOnClickListener {
             // Check which RadioButton is selected
-            val mood: String = when {
-                view.findViewById<RadioButton>(R.id.radioButton_vegetarian).isChecked -> getString(R.string.vegetarian)
-                view.findViewById<RadioButton>(R.id.radioButton_vegan).isChecked -> getString(R.string.vegan)
-                view.findViewById<RadioButton>(R.id.radioButton_pescitarian).isChecked -> getString(
-                    R.string.pescitarian
-                )
-                view.findViewById<RadioButton>(R.id.radioButton_non_vegetarian).isChecked -> getString(
-                    R.string.non_vegetarian_without_red_meat
-                )
-                view.findViewById<RadioButton>(R.id.radioButton_gluten_free).isChecked -> getString(
-                    R.string.gluten_free
-                )
-                view.findViewById<RadioButton>(R.id.radioButton_no_restrictions).isChecked -> getString(
-                    R.string.no_restrictions
-                )
-                else -> "No Restrictions Apply"
+            if (view.findViewById<CheckBox>(R.id.radioButton_vegetarian).isChecked) {
+                mood + getString(R.string.vegetarian)
             }
+            if (view.findViewById<CheckBox>(R.id.radioButton_vegan).isChecked) {
+                mood + getString(R.string.vegan)
+            }
+            if (view.findViewById<CheckBox>(R.id.radioButton_pescitarian).isChecked) {
+                mood + getString(R.string.pescitarian)
+            }
+            if (view.findViewById<CheckBox>(R.id.radioButton_non_vegetarian).isChecked) {
+                mood + getString(R.string.non_vegetarian_without_red_meat)
+            }
+            if (view.findViewById<CheckBox>(R.id.radioButton_gluten_free).isChecked) {
+                mood + getString(R.string.gluten_free)
+            }
+            if (view.findViewById<CheckBox>(R.id.radioButton_no_restrictions).isChecked) {
+                mood + getString(R.string.no_restrictions)
+            }
+        }
+
 
             // Write to SharedPreferences
             with(sharedPref.edit()) {
@@ -52,14 +57,11 @@ class DietaryRestrictionFragment : Fragment(R.layout.fragment_dietary_restrictio
                 commit()
             }
 
-            // Optional: Show a confirmation toast
-            Toast.makeText(requireContext(), "Dietary restrictions saved: $mood", Toast.LENGTH_SHORT).show()
 
             findNavController().navigate(R.id.action_dietRestrictionsFragment_to_cuisineFragment)
-        }
 
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStackImmediate()
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }

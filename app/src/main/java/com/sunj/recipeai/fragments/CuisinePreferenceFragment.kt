@@ -44,14 +44,11 @@ class CuisinePreferenceFragment : Fragment(R.layout.fragment_cuisine_preference)
                 commit()
             }
 
-            // Optional: Show a confirmation toast
-            Toast.makeText(requireContext(), "cuisine saved: $mood", Toast.LENGTH_SHORT).show()
-
             findNavController().navigate(R.id.action_cuisinePreferenceFragment_to_cookingPreferencesFragment)
         }
 
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStackImmediate()
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }

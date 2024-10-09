@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:id="@+id/recipe_fragment_container"
-        android:background="@drawable/bg_regular">
+        android:id="@+id/recipe_fragment_container">
 
 
         <ImageView

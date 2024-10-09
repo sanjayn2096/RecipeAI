@@ -3,17 +3,9 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/sinera" />
-    <font
-        android:fontStyle="normal"
-        android:fontWeight="400"
         android:font="@font/titan_one" />
-    <font
-        android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/source_sans_pro" />
     <font
         android:fontStyle="italic"
         android:fontWeight="400"
-        android:font="@font/sinera" />
+        android:font="@font/titan_one" />
 </font-family>

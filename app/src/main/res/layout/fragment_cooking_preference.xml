@@ -3,8 +3,7 @@
     android:id="@+id/fragment_cooking_preferences"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bg_regular">
+    android:orientation="vertical">
 
     <ImageButton
         android:layout_width="30sp"
@@ -71,8 +70,6 @@
 
     </RadioGroup>
 
-
-
     <Button
         android:id="@+id/Button_next_cooking_preferences"
         android:layout_width="wrap_content"
@@ -82,6 +79,5 @@
         android:background="@drawable/button_resource"
         android:text="@string/fetch_recipes"
         android:textStyle="bold" />
-
 
 </LinearLayout>
