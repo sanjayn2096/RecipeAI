@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="30dp"
-        android:fontFamily="cursive"
-        android:lines="3"
+        android:fontFamily="@font/source_sans_pro"
+        android:lines="2"
         android:text="@string/what_cuisine_do_you_feel_like_eating_today"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/indian_cuisine"
             android:textStyle="bold" />
 
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/mexican"
             android:textStyle="bold" />
 
@@ -58,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/chinese"
             android:textStyle="bold" />
 
@@ -67,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/thai"
             android:textStyle="bold" />
 
@@ -76,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/korean"
             android:textStyle="bold" />
 
@@ -85,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/surprise_me_with_anything"
             android:textStyle="bold" />
     </RadioGroup>
@@ -92,12 +98,13 @@
 
     <Button
         android:id="@+id/Button_next_cuisine_preferences"
-        android:layout_width="wrap_content"
+        android:layout_width="275sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300sp"
+        android:layout_marginStart="75sp"
         android:layout_marginTop="80sp"
+        android:background="@drawable/button_resource"
+        android:fontFamily="@font/source_sans_pro"
         android:text="@string/next"
-        android:textStyle="bold"
-        android:background="@drawable/button_resource"/>
+        android:textStyle="bold"/>
 
 </LinearLayout>

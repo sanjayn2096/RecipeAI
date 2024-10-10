@@ -7,9 +7,11 @@ data class Recipes (
     val recipeName: String,
     val image: String,
     val ingredients: String,
-    val instructions: String
+    val instructions: String,
+    val nutritionDetails: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
