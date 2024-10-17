@@ -5,10 +5,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.sunj.recipeai.R
@@ -26,10 +24,10 @@ class DietaryRestrictionFragment : Fragment(R.layout.fragment_dietary_restrictio
         val nextButton: Button = view.findViewById(R.id.Button_next_dietary_restrictions)
         val backButton: ImageButton = view.findViewById(R.id.back_button_dietary_preferences)
 
-        // Set a click listener for the button
+//        // Set a click listener for the button
         nextButton.setOnClickListener {
             // Check which RadioButton is selected
-            val mood: String = when {
+            val diet: String = when {
                 view.findViewById<RadioButton>(R.id.radioButton_vegetarian).isChecked -> getString(
                     R.string.vegetarian
                 )
@@ -53,13 +51,12 @@ class DietaryRestrictionFragment : Fragment(R.layout.fragment_dietary_restrictio
 
             // Write to SharedPreferences
             with(sharedPref.edit()) {
-                putString("selected_dietary_restriction", mood)
+                putString("selected_dietary_restriction", diet)
                 commit()
             }
-        }
-
 
             findNavController().navigate(R.id.action_dietRestrictionsFragment_to_cuisineFragment)
+        }
 
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()

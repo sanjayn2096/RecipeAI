@@ -38,10 +38,6 @@
         <action
             android:id="@+id/action_cuisinePreferenceFragment_to_cookingPreferencesFragment"
             app:destination="@id/cookingPreferencesFragment" />
-        <action
-            android:id="@+id/action_cuisinePreferenceFragment_to_moodPreferenceFragment"
-            app:destination="@id/moodFragment"
-            />
     </fragment>
 
     <fragment

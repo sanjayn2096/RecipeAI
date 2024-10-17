@@ -7,15 +7,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 import com.google.gson.Gson
@@ -64,7 +65,7 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         val prompt = "You are my recipe book. Give me some recipes based on the following preferences I am " +
                 "feeling : + $selectedMood + " + " My dietary restriction is : " + selectedDietaryRestriction + ", My cooking preference is : " + selectedCookingPreference +
                 "and I feel like eating this cuisine : " + selectedCuisine + " Output the recipes in this format. " +
-                "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String} " +
+                "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'nutritionalValue' : String, 'Description of Dish' : String} " +
                 "Return Array<Recipe>. The ingredients and instructions should be in bullet points"
 
         callFetchRecipes(prompt)
@@ -74,7 +75,7 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         }
 
         refreshButton.setOnClickListener {
-            callFetchRecipes("Get me more recipes based on the my previous preferences")
+            callFetchRecipes("Fetch more number of recipes based on the my previous preferences")
         }
 
     }
@@ -89,7 +90,8 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
                 recyclerView.adapter = adapter
                 recyclerView.visibility = View.VISIBLE
             } else {
-                //Toast.makeText(applicationContext, "Error fetching recipes, hit the refresh button to re-fetch", Toast.LENGTH_SHORT).show()
+                //AlertDialog(application, "Error fetching recipes, hit the refresh button to re-fetch")
+                Toast.makeText(applicationContext, "Error fetching recipes, hit the refresh button to re-fetch", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -119,7 +121,7 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
             } catch (e: Exception) {
                 e.printStackTrace() // Handle the exception
                 Log.d("RecipeActivity", "Error fetching recipes: ${e.message}")
-                null // Return null in case of an error
+                null
             }
         }
     }

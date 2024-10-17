@@ -34,4 +34,9 @@
     <string name="edit_preferences">Edit Preferences</string>
     <string name="refresh">Refresh</string>
     <string name="recipeai">RecipeAI</string>
+    <string name="nutritional_value">Nutritional Value</string>
+    <string name="nutritional_value_of_dish">Nutritional Value of Dish</string>
+    <string name="recipe_description">Recipe Description</string>
+    <string name="description">Description</string>
+    <string name="fetch_ingredients">Fetch Ingredients</string>
 </resources>

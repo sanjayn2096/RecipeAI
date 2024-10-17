@@ -57,8 +57,8 @@
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="75sp"
-            android:layout_marginTop="10sp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="10dp"
             android:text="@string/not_hungry"
             android:fontFamily="@font/source_sans_pro"
             android:textStyle="bold" />
@@ -67,8 +67,8 @@
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="75sp"
-            android:layout_marginTop="10sp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="10dp"
             android:text="@string/neutral"
             android:fontFamily="@font/source_sans_pro"
             android:textStyle="bold" />
@@ -77,10 +77,10 @@
 
     <Button
         android:id="@+id/Button_next_mood"
-        android:layout_width="275sp"
+        android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75sp"
-        android:layout_marginTop="80sp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/button_resource"
         android:fontFamily="@font/source_sans_pro"
         android:text="@string/next"

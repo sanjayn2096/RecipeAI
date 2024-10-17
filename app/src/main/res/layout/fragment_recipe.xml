@@ -34,9 +34,6 @@
             android:textStyle="bold" />
 
 
-
-
-
         <ImageView
             android:id="@+id/recipe_image"
             android:layout_width="match_parent"
@@ -47,10 +44,49 @@
             android:scaleType="centerCrop" />
 
         <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0sp"
+            android:layout_marginTop="16sp"
+            android:text="@string/recipe_description"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/recipe_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0sp"
+            android:layout_marginTop="16sp"
+            android:text="@string/description"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/nutritionalValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nutritional_value"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="16sp" />
+
+        <TextView
+            android:id="@+id/recipe_nutritional_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0sp"
+            android:layout_marginTop="16sp"
+            android:text="@string/nutritional_value_of_dish"
+            android:textSize="16sp"
+            />
+
+        <TextView
             android:id="@+id/ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingredients "
+            android:text="Ingredients"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="16sp"/>
@@ -67,7 +103,7 @@
             android:id="@+id/instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Instructions "
+            android:text="Instructions"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="16sp"/>
@@ -80,5 +116,16 @@
             android:text="@string/recipe_instructions"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/fetch_ingredients"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/fetch_ingredients"
+            android:background="@drawable/button_resource"
+            android:fontFamily="@font/source_sans_pro"
+            android:textStyle="bold" >
+        </Button>
     </LinearLayout>
 </ScrollView>

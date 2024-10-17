@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_dietary_restrictions"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_dietary_restriction"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bg_regular">
+    android:orientation="vertical">
 
     <ImageButton
         android:layout_width="30sp"
@@ -13,8 +13,7 @@
         android:layout_marginTop="16sp"
         android:background="@drawable/angle_circle_left"
         android:id="@+id/back_button_dietary_preferences"
-        android:contentDescription="TODO">
-    </ImageButton>
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <RadioButton
+        <RadioButton
             android:id="@+id/radioButton_vegetarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +104,5 @@
         android:fontFamily="@font/source_sans_pro"
         android:text="@string/next"
         android:textStyle="bold"/>
-
-
 
 </LinearLayout>
