@@ -54,23 +54,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <ImageButton
+            android:id="@+id/refresh_recipes_button"
             android:layout_width="30sp"
             android:layout_height="30sp"
             android:layout_marginStart="60sp"
             android:layout_marginTop="700sp"
-            android:text="@string/refresh"
             android:background="@drawable/refresh"
-            android:id="@+id/refresh_recipes_button" />
+            android:text="@string/refresh" />
+
         <ImageButton
+            android:id="@+id/edit_preferences_button"
             android:layout_width="33sp"
             android:layout_height="33sp"
             android:layout_marginStart="250sp"
             android:layout_marginTop="700sp"
-            android:text="@string/edit_preferences"
-            android:backgroundTint="@color/custom_green"
             android:background="@drawable/floppy_disk_pen_12400816"
-            android:id="@+id/edit_preferences_button" />
+            android:backgroundTint="@color/custom_green"
+            android:text="@string/edit_preferences" />
     </LinearLayout>
 
 </RelativeLayout>

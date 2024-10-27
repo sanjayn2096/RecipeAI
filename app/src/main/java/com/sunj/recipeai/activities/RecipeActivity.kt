@@ -1,22 +1,15 @@
 package com.sunj.recipeai.activities
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
-import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 import com.google.gson.Gson
@@ -24,39 +17,36 @@ import com.google.gson.reflect.TypeToken
 import com.sunj.recipeai.R
 import com.sunj.recipeai.RecipeAdapter
 import com.sunj.recipeai.Recipes
+import com.sunj.recipeai.databinding.ActivityDisplayRecipeBinding
 import com.sunj.recipeai.fragments.RecipeFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener {
-    private lateinit var loadingAnimation: LottieAnimationView
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var textViewLoading: TextView
-    private lateinit var editButton: ImageButton
-    private lateinit var refreshButton: ImageButton
+
+    // Declare the View Binding object
+    private lateinit var binding: ActivityDisplayRecipeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_display_recipe)
 
-        getWindow().setFlags(
+        // Initialize View Binding
+        binding = ActivityDisplayRecipeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
 
+        // Hide the action bar if available.
         supportActionBar?.hide()
 
-        recyclerView = findViewById(R.id.recipe_recycler_view)
-        loadingAnimation = findViewById(R.id.loading_animation)
-        textViewLoading = findViewById(R.id.textViewLoading)
-        refreshButton = findViewById(R.id.refresh_recipes_button)
-        editButton = findViewById(R.id.edit_preferences_button)
+        binding.recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        val sharedPref: SharedPreferences =
-            getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-
+        // Fetch the user preferences (you can refactor this later to use ViewModel as per the previous suggestions)
+        val sharedPref = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         val selectedDietaryRestriction = sharedPref.getString("selected_dietary_restriction", "No Restrictions Apply")
         val selectedCuisine = sharedPref.getString("selected_cuisine_preference", "No Cuisine Selected")
         val selectedMood = sharedPref.getString("selected_mood", "")
@@ -70,27 +60,26 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
 
         callFetchRecipes(prompt)
 
-        editButton.setOnClickListener {
+        // Set click listeners using the binding object
+        binding.editPreferencesButton.setOnClickListener {
             this.finish()
         }
 
-        refreshButton.setOnClickListener {
-            callFetchRecipes("Fetch more number of recipes based on the my previous preferences")
+        binding.refreshRecipesButton.setOnClickListener {
+            callFetchRecipes("Fetch more number of recipes based on my previous preferences")
         }
-
     }
 
-    private fun callFetchRecipes(prompt: String){
+    private fun callFetchRecipes(prompt: String) {
         lifecycleScope.launch {
             showLoading(true)
             val recipes = fetchRecipes(prompt)
             showLoading(false)
             if (recipes != null) {
                 val adapter = RecipeAdapter(recipes, this@RecipeActivity)
-                recyclerView.adapter = adapter
-                recyclerView.visibility = View.VISIBLE
+                binding.recipeRecyclerView.adapter = adapter
+                binding.recipeRecyclerView.visibility = View.VISIBLE
             } else {
-                //AlertDialog(application, "Error fetching recipes, hit the refresh button to re-fetch")
                 Toast.makeText(applicationContext, "Error fetching recipes, hit the refresh button to re-fetch", Toast.LENGTH_SHORT).show()
             }
         }
@@ -100,7 +89,6 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         return withContext(Dispatchers.Main) {
             try {
                 val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-
                 val apiKey = ai.metaData.getString("com.sunj.recipeai.API_KEY")
 
                 val generativeModel = GenerativeModel(
@@ -127,20 +115,20 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
     }
 
     private fun showLoading(isLoading: Boolean) {
-        loadingAnimation.visibility = if (isLoading) View.VISIBLE else View.GONE
-        textViewLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-        recyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
-        editButton.visibility = if (isLoading) View.GONE else View.VISIBLE
-        refreshButton.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.loadingAnimation.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.textViewLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.recipeRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.editPreferencesButton.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.refreshRecipesButton.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     override fun onRecipeClick(recipe: Recipes) {
         val fragment = RecipeFragment.newInstance(recipe)
-        val fragmentContainer = findViewById<View>(R.id.fragment_container)
+        val fragmentContainer = binding.fragmentContainer
         fragmentContainer.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-        editButton.visibility = View.GONE
-        refreshButton.visibility = View.GONE
+        binding.recipeRecyclerView.visibility = View.GONE
+        binding.editPreferencesButton.visibility = View.GONE
+        binding.refreshRecipesButton.visibility = View.GONE
 
         // Open RecipeFragment and pass the recipe data
         Log.d("RecipeActivity", "RECIPE CLICKED")
@@ -149,5 +137,4 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
             .addToBackStack(null)
             .commit()
     }
-
 }
