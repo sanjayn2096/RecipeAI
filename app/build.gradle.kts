@@ -54,4 +54,7 @@ dependencies {
     implementation (libs.gson)
     implementation (libs.glide)
     implementation (libs.lottie.v340)
+    implementation (libs.androidx.ui.tooling.preview)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.activity.compose)
 }
