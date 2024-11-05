@@ -1,17 +1,23 @@
-package com.sunj.recipeai
+package com.sunj.recipeai.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.sunj.recipeai.databinding.RecipeListItemBinding
+import com.sunj.recipeai.R
+import com.sunj.recipeai.model.Recipes
 
-class RecipeAdapter(private val recipeList: List<Recipes>, private val listener: OnRecipeClickListener) :
-    RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+
+class RecipeAdapter(private val listener: OnRecipeClickListener) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+
+    private var recipeList : List<Recipes> = listOf()
 
     interface OnRecipeClickListener {
         fun onRecipeClick(recipe: Recipes)
@@ -55,6 +61,12 @@ class RecipeAdapter(private val recipeList: List<Recipes>, private val listener:
     }
 
     override fun getItemCount(): Int = recipeList.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(feed: List<Recipes>) {
+        recipeList = feed
+        notifyDataSetChanged()
+    }
 }
 
 

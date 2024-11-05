@@ -1,29 +1,34 @@
 package com.sunj.recipeai.activities
 
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.generationConfig
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.sunj.recipeai.R
+import com.sunj.recipeai.adapters.RecipeAdapter
+import com.sunj.recipeai.model.Recipes
 import com.sunj.recipeai.RecipeAdapter
 import com.sunj.recipeai.Recipes
 import com.sunj.recipeai.databinding.ActivityDisplayRecipeBinding
 import com.sunj.recipeai.fragments.RecipeFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.sunj.recipeai.viewmodel.RecipeViewModel
+import com.sunj.recipeai.viewmodel.RecipeViewModelFactory
 
 class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener {
+    private lateinit var loadingAnimation: LottieAnimationView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var textViewLoading: TextView
+    private lateinit var editButton: ImageButton
+    private lateinit var refreshButton: ImageButton
+    private lateinit var recipeViewModel: RecipeViewModel
 
     // Declare the View Binding object
     private lateinit var binding: ActivityDisplayRecipeBinding
@@ -43,75 +48,44 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         // Hide the action bar if available.
         supportActionBar?.hide()
 
+        recyclerView = findViewById(R.id.recipe_recycler_view)
+        loadingAnimation = findViewById(R.id.loading_animation)
+        textViewLoading = findViewById(R.id.textViewLoading)
+        refreshButton = findViewById(R.id.refresh_recipes_button)
+        editButton = findViewById(R.id.edit_preferences_button)
+
+        recipeViewModel = ViewModelProvider(this, RecipeViewModelFactory(applicationContext))
+            .get(RecipeViewModel::class.java)
+
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        // Fetch the user preferences (you can refactor this later to use ViewModel as per the previous suggestions)
-        val sharedPref = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        val selectedDietaryRestriction = sharedPref.getString("selected_dietary_restriction", "No Restrictions Apply")
-        val selectedCuisine = sharedPref.getString("selected_cuisine_preference", "No Cuisine Selected")
-        val selectedMood = sharedPref.getString("selected_mood", "")
-        val selectedCookingPreference = sharedPref.getString("selected_cooking_preference", "")
+        val recipeAdapter = RecipeAdapter(this@RecipeActivity)
 
-        val prompt = "You are my recipe book. Give me some recipes based on the following preferences I am " +
-                "feeling : + $selectedMood + " + " My dietary restriction is : " + selectedDietaryRestriction + ", My cooking preference is : " + selectedCookingPreference +
-                "and I feel like eating this cuisine : " + selectedCuisine + " Output the recipes in this format. " +
-                "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'nutritionalValue' : String, 'Description of Dish' : String} " +
-                "Return Array<Recipe>. The ingredients and instructions should be in bullet points"
+        // Observe the recipe list to update RecyclerView data
+        recipeViewModel.recipe.observe(this, Observer { feed ->
+            recipeAdapter.setData(feed)
+        })
 
-        callFetchRecipes(prompt)
+        // Observe the loading state to show/hide loading animation
+        recipeViewModel.isLoading.observe(this, Observer { isLoading ->
+            showLoading(isLoading)
+        })
+
+        // Trigger API call
+        recipeViewModel.callFetchRecipes()
+        recyclerView.adapter = recipeAdapter
+        recyclerView.visibility = View.VISIBLE
 
         // Set click listeners using the binding object
         binding.editPreferencesButton.setOnClickListener {
             this.finish()
         }
 
-        binding.refreshRecipesButton.setOnClickListener {
-            callFetchRecipes("Fetch more number of recipes based on my previous preferences")
+        refreshButton.setOnClickListener {
+            recipeViewModel.callFetchRecipes()
         }
-    }
 
-    private fun callFetchRecipes(prompt: String) {
-        lifecycleScope.launch {
-            showLoading(true)
-            val recipes = fetchRecipes(prompt)
-            showLoading(false)
-            if (recipes != null) {
-                val adapter = RecipeAdapter(recipes, this@RecipeActivity)
-                binding.recipeRecyclerView.adapter = adapter
-                binding.recipeRecyclerView.visibility = View.VISIBLE
-            } else {
-                Toast.makeText(applicationContext, "Error fetching recipes, hit the refresh button to re-fetch", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private suspend fun fetchRecipes(prompt: String): List<Recipes>? {
-        return withContext(Dispatchers.Main) {
-            try {
-                val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-                val apiKey = ai.metaData.getString("com.sunj.recipeai.API_KEY")
-
-                val generativeModel = GenerativeModel(
-                    modelName = "gemini-1.5-flash",
-                    apiKey = apiKey!!,
-                    generationConfig = generationConfig {
-                        responseMimeType = "application/json"
-                    }
-                )
-                // Assuming generateContent returns a JSON string
-                val jsonResponse = generativeModel.generateContent(prompt)
-
-                // Parse the JSON response into a List<Recipes> using Gson
-                val gson = Gson()
-                val listType = object : TypeToken<List<Recipes>>() {}.type
-                gson.fromJson(jsonResponse.text, listType) as List<Recipes>
-
-            } catch (e: Exception) {
-                e.printStackTrace() // Handle the exception
-                Log.d("RecipeActivity", "Error fetching recipes: ${e.message}")
-                null
-            }
-        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -137,4 +111,5 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
             .addToBackStack(null)
             .commit()
     }
+
 }

@@ -1,4 +1,4 @@
-package com.sunj.recipeai
+package com.sunj.recipeai.model
 
 import android.os.Parcel
 import android.os.Parcelable

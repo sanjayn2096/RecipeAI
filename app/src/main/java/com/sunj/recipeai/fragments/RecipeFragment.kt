@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.sunj.recipeai.R
-import com.sunj.recipeai.Recipes
+import com.sunj.recipeai.model.Recipes
 
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     companion object {
