@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_cooking_preferences"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <ImageButton
+        android:id="@+id/back_button_cooking_preferences"
         android:layout_width="30sp"
         android:layout_height="30sp"
         android:layout_marginStart="16sp"
         android:layout_marginTop="16sp"
         android:background="@drawable/angle_circle_left"
-        android:id="@+id/back_button_cooking_preferences"
-        android:contentDescription="TODO">
-    </ImageButton>
+        android:contentDescription="TODO"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35sp"
-        android:layout_marginTop="30sp"
+        android:layout_width="381dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/source_sans_pro"
         android:lines="2"
         android:text="@string/how_much_time_do_you_like_to_spend_on_cooking"
         android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back_button_cooking_preferences" />
 
     <RadioGroup
-        android:layout_width="match_parent"
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RadioButton
             android:id="@+id/radioButton_cooking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
-            android:fontFamily="@font/source_sans_pro"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/_10_minutes"
             android:textStyle="bold" />
 
@@ -47,8 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
-            android:fontFamily="@font/source_sans_pro"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/_10_30_minutes"
             android:textStyle="bold" />
 
@@ -57,8 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="75sp"
-            android:fontFamily="@font/source_sans_pro"
             android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
             android:text="@string/_30_60_minutes"
             android:textStyle="bold" />
 
@@ -71,18 +81,20 @@
             android:fontFamily="@font/source_sans_pro"
             android:text="@string/_60_minutes"
             android:textStyle="bold" />
-
     </RadioGroup>
 
     <Button
         android:id="@+id/Button_next_cooking_preferences"
         android:layout_width="275sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75sp"
-        android:layout_marginTop="80sp"
+        android:layout_marginTop="76dp"
         android:background="@drawable/button_resource"
         android:fontFamily="@font/source_sans_pro"
         android:text="@string/next"
-        android:textStyle="bold" />
+        android:textStyle="bold"
 
-</LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

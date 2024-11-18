@@ -5,15 +5,16 @@
     android:id="@+id/fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img">
+    android:background="@drawable/img"
+    tools:context=".MainFragment">
 
+    <!-- App Name Text -->
     <TextView
         android:id="@+id/AppNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/titan_one"
         android:gravity="center"
-        android:lines="1"
         android:shadowColor="@color/light_gray"
         android:shadowDx="0"
         android:shadowDy="7"
@@ -22,30 +23,26 @@
         android:textAlignment="center"
         android:textColor="@color/custom_green"
         android:textSize="36sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.439" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
 
+    <!-- Main Text -->
     <TextView
         android:id="@+id/MainText"
-        android:layout_width="227dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/custom_font_source_sans"
         android:text="@string/let_s_cook_something_nice_today"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintTop_toBottomOf="@id/AppNameText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.47" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.05" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

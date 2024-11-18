@@ -15,8 +15,6 @@ import com.airbnb.lottie.LottieAnimationView
 import com.sunj.recipeai.R
 import com.sunj.recipeai.adapters.RecipeAdapter
 import com.sunj.recipeai.model.Recipes
-import com.sunj.recipeai.RecipeAdapter
-import com.sunj.recipeai.Recipes
 import com.sunj.recipeai.databinding.ActivityDisplayRecipeBinding
 import com.sunj.recipeai.fragments.RecipeFragment
 import com.sunj.recipeai.viewmodel.RecipeViewModel

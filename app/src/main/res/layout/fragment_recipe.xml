@@ -1,131 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recipe_fragment_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/recipe_fragment_scroll_view">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recipe_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:id="@+id/recipe_fragment_container">
+        android:padding="16dp">
 
-
+        <!-- Close Button -->
         <ImageView
             android:id="@+id/into_button"
             android:layout_width="20sp"
             android:layout_height="20sp"
-            android:layout_marginStart="0sp"
-            android:layout_marginTop="0sp"
             android:background="@drawable/angle_circle_left"
             android:clipToOutline="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Recipe Name -->
         <TextView
             android:id="@+id/recipe_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0sp"
-            android:layout_marginTop="16sp"
+            android:layout_marginTop="16dp"
             android:text="Recipe Title"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/into_button"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-
+        <!-- Recipe Image -->
         <ImageView
             android:id="@+id/recipe_image"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="100sp"
-            android:layout_marginTop="16sp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/image_style"
             android:clipToOutline="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_name"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Description Header -->
         <TextView
             android:id="@+id/description"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0sp"
-            android:layout_marginTop="16sp"
+            android:layout_marginTop="16dp"
             android:text="@string/recipe_description"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_image"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-
+        <!-- Recipe Description -->
         <TextView
             android:id="@+id/recipe_description"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0sp"
-            android:layout_marginTop="16sp"
+            android:layout_marginTop="16dp"
             android:text="@string/description"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Nutritional Value Header -->
         <TextView
             android:id="@+id/nutritionalValue"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/nutritional_value"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginTop="16sp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_description"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Recipe Nutritional Value -->
         <TextView
             android:id="@+id/recipe_nutritional_value"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0sp"
-            android:layout_marginTop="16sp"
+            android:layout_marginTop="16dp"
             android:text="@string/nutritional_value_of_dish"
             android:textSize="16sp"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nutritionalValue"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Ingredients Header -->
         <TextView
             android:id="@+id/ingredients"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Ingredients"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginTop="16sp"/>
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_nutritional_value"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Recipe Ingredients -->
         <TextView
             android:id="@+id/recipe_ingredients"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Recipe Ingredients"
             android:textSize="16sp"
-            android:layout_marginTop="16sp"/>
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredients"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Instructions Header -->
         <TextView
             android:id="@+id/instructions"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Instructions"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginTop="16sp"/>
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_ingredients"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Recipe Instructions -->
         <TextView
             android:id="@+id/recipe_instructions"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16sp"
+            android:layout_marginTop="16dp"
             android:text="@string/recipe_instructions"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/instructions"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Fetch Ingredients Button -->
         <Button
             android:id="@+id/fetch_ingredients"
             android:layout_width="275dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="80dp"
-            android:text="@string/fetch_ingredients"
+            android:layout_marginTop="52dp"
             android:background="@drawable/button_resource"
             android:fontFamily="@font/source_sans_pro"
-            android:textStyle="bold" >
-        </Button>
-    </LinearLayout>
-</ScrollView>
+            android:text="Fetch Ingredients"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_instructions" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

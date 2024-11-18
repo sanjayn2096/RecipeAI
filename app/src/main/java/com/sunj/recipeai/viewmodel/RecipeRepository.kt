@@ -28,6 +28,7 @@ class RecipeRepository (private val key : String) {
                 val gson = Gson()
                 val listType = object : TypeToken<List<Recipes>>() {}.type
                 gson.fromJson(jsonResponse.text, listType) as List<Recipes>
+                //Log.d("RecipeActivity", "Recipes: $recipes")
 
             } catch (e: Exception) {
                 e.printStackTrace() // Handle the exception

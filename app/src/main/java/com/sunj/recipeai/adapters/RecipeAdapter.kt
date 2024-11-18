@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sunj.recipeai.R
+import com.sunj.recipeai.databinding.RecipeListItemBinding
 import com.sunj.recipeai.model.Recipes
 
 
