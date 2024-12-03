@@ -18,7 +18,7 @@ import com.sunj.recipeai.model.Recipes
 import com.sunj.recipeai.databinding.ActivityDisplayRecipeBinding
 import com.sunj.recipeai.fragments.RecipeFragment
 import com.sunj.recipeai.viewmodel.RecipeViewModel
-import com.sunj.recipeai.viewmodel.RecipeViewModelFactory
+import com.sunj.recipeai.viewmodel.ViewModelFactory
 
 class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener {
     private lateinit var loadingAnimation: LottieAnimationView
@@ -52,8 +52,7 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         refreshButton = findViewById(R.id.refresh_recipes_button)
         editButton = findViewById(R.id.edit_preferences_button)
 
-        recipeViewModel = ViewModelProvider(this, RecipeViewModelFactory(applicationContext))
-            .get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProvider(this, ViewModelFactory(applicationContext))[RecipeViewModel::class.java]
 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -83,7 +82,6 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         refreshButton.setOnClickListener {
             recipeViewModel.callFetchRecipes()
         }
-
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -109,5 +107,4 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
             .addToBackStack(null)
             .commit()
     }
-
 }

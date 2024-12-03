@@ -39,4 +39,6 @@
     <string name="recipe_description">Recipe Description</string>
     <string name="description">Description</string>
     <string name="fetch_ingredients">Fetch Ingredients</string>
+    <string name="i_m_feeling_lucky">I am feeling lucky! (Suggest any recipe)</string>
+    <string name="lucky">lucky</string>
 </resources>

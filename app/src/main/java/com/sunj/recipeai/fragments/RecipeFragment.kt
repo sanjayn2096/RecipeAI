@@ -47,17 +47,12 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         val recipeInstructions: TextView = view.findViewById(R.id.recipe_instructions)
         val recipeName: TextView = view.findViewById(R.id.recipe_name)
         val ingredients: TextView = view.findViewById(R.id.recipe_ingredients)
-        val nutritionalValue: TextView = view.findViewById(R.id.nutritionalValue)
-        val description: TextView   = view.findViewById(R.id.description)
         val intoButton: ImageView = view.findViewById(R.id.into_button)
 
         recipeName.text = recipe.recipeName
-        nutritionalValue.text = recipe.nutritionDetails
-        description.text = recipe.description
         recipeImage.setImageResource(R.drawable.food_pic)
         recipeInstructions.text = recipe.instructions
         ingredients.text = recipe.ingredients
-
 
         intoButton.setOnClickListener {
             requireActivity().findViewById<View>(R.id.fragment_container).visibility = View.GONE

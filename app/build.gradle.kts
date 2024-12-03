@@ -12,19 +12,24 @@ android {
         applicationId = "com.sunj.recipeai"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
     viewBinding {
@@ -61,4 +66,7 @@ dependencies {
     implementation (libs.androidx.ui.tooling.preview)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
     implementation (libs.androidx.activity.compose)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    debugImplementation (libs.leakcanary.android)
 }

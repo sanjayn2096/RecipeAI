@@ -39,12 +39,6 @@ class RecipeAdapter(private val listener: OnRecipeClickListener) : RecyclerView.
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val sharedPref: SharedPreferences =
-            holder.itemView.context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-
-        val selectedCuisine = sharedPref.getString("selected_cuisine_preference", "No Cuisine Selected")
-        val selectedCookingPreference = sharedPref.getString("selected_cooking_preference", "")
-
         val recipe: Recipes = recipeList[position]
         holder.binding.recipeName.text = recipe.recipeName
 
@@ -56,9 +50,8 @@ class RecipeAdapter(private val listener: OnRecipeClickListener) : RecyclerView.
             )
             .into(holder.binding.recipeImage)
 
-        // Fetch from sharedPreferences
-        holder.binding.cuisineName.text = "Cuisine : $selectedCuisine"
-        holder.binding.cookingTime.text = "Time to Cook : $selectedCookingPreference"
+        holder.binding.cuisineName.text = "Cuisine : " + recipe.cuisine
+        holder.binding.cookingTime.text = "Time to Cook : " + recipe.cookingTime
     }
 
     override fun getItemCount(): Int = recipeList.size

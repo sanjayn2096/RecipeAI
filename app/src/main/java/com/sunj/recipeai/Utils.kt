@@ -12,5 +12,4 @@ import androidx.compose.ui.unit.dp
 //TODO : This class should hold all the Util functions used across the package.
 class Utils {
 
-
 }

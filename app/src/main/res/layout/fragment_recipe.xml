@@ -49,56 +49,6 @@
             app:layout_constraintTop_toBottomOf="@id/recipe_name"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Description Header -->
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/recipe_description"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recipe_image"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Recipe Description -->
-        <TextView
-            android:id="@+id/recipe_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/description"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Nutritional Value Header -->
-        <TextView
-            android:id="@+id/nutritionalValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/nutritional_value"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recipe_description"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Recipe Nutritional Value -->
-        <TextView
-            android:id="@+id/recipe_nutritional_value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/nutritional_value_of_dish"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nutritionalValue"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <!-- Ingredients Header -->
         <TextView
             android:id="@+id/ingredients"
@@ -109,7 +59,7 @@
             android:textSize="18sp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recipe_nutritional_value"
+            app:layout_constraintTop_toBottomOf="@id/recipe_image"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Recipe Ingredients -->
@@ -150,18 +100,18 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Fetch Ingredients Button -->
-        <Button
-            android:id="@+id/fetch_ingredients"
-            android:layout_width="275dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:background="@drawable/button_resource"
-            android:fontFamily="@font/source_sans_pro"
-            android:text="Fetch Ingredients"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recipe_instructions" />
+<!--        <Button-->
+<!--            android:id="@+id/fetch_ingredients"-->
+<!--            android:layout_width="275dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="52dp"-->
+<!--            android:background="@drawable/button_resource"-->
+<!--            android:fontFamily="@font/source_sans_pro"-->
+<!--            android:text="Fetch Ingredients"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/recipe_instructions" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

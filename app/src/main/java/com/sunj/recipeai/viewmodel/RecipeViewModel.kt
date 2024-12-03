@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.*
 
 class RecipeViewModel(private val key: String, private val mSharedPreferences: SharedPreferences) : ViewModel() {
@@ -42,12 +43,23 @@ class RecipeViewModel(private val key: String, private val mSharedPreferences: S
         val selectedMood = mSharedPreferences.getString("selected_mood", "")
         val selectedCookingPreference = mSharedPreferences.getString("selected_cooking_preference", "")
 
-        return "You are my recipe book. Give me some recipes based on the following preferences I am " +
-                "feeling : + $selectedMood + " + " My dietary restriction is : " + selectedDietaryRestriction +
-                ", My cooking preference is : " + selectedCookingPreference +
-                "and I feel like eating this cuisine : " + selectedCuisine +
-                " Output the recipes in this format. " +
-                "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'nutritionalValue' : String, 'Description of Dish' : String} " +
-                "Return Array<Recipe>. The ingredients and instructions should be in bullet points. Mention the ingredients which are optional or replacements. Find a suitable image for this recipe and give me a public URL for it."
+        return if (selectedMood == "lucky") {
+            Log.d("RecipeViewModel", "selectedMood is I am feeling lucky")
+            "You are my recipe book. I'm feeling Lucky today, please suggest me any recipe "+
+            "Output the recipes in this format. " +
+                    "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String} " +
+                    "Return Array<Recipe>. The ingredients and instructions should be in bullet points. Mention the ingredients which are optional or replacements. " +
+                    "Find a suitable image for this recipe and give me a public URL for it."
+        } else {
+                    "You are my recipe book. Suggest some recipes for me based on the following preferences." +
+                    "I am feeling : + $selectedMood + " + ", I have the following diet restrictions : :  + $selectedDietaryRestriction " +
+                    ", I prefer spending + $selectedCookingPreference + time on cooking " +
+                    "and I feel like eating this cuisine :  + $selectedCuisine" +
+                    "Output the recipes in this format. " +
+                    "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String} " +
+                    "Return Array<Recipe>. The ingredients and instructions should be in bullet points. " +
+                    "Mention the ingredients which are optional or replacements. " +
+                    "Find a suitable image for this recipe and give me a public URL for it."
+        }
     }
 }
