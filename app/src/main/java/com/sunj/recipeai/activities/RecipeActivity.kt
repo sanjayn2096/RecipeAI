@@ -46,11 +46,11 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         // Hide the action bar if available.
         supportActionBar?.hide()
 
-        recyclerView = findViewById(R.id.recipe_recycler_view)
-        loadingAnimation = findViewById(R.id.loading_animation)
-        textViewLoading = findViewById(R.id.textViewLoading)
-        refreshButton = findViewById(R.id.refresh_recipes_button)
-        editButton = findViewById(R.id.edit_preferences_button)
+        recyclerView = binding.recipeRecyclerView
+        loadingAnimation = binding.loadingAnimation
+        textViewLoading = binding.textViewLoading
+        refreshButton = binding.refreshRecipesButton
+        editButton = binding.editPreferencesButton
 
         recipeViewModel = ViewModelProvider(this, ViewModelFactory(applicationContext))[RecipeViewModel::class.java]
 
@@ -75,7 +75,7 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         recyclerView.visibility = View.VISIBLE
 
         // Set click listeners using the binding object
-        binding.editPreferencesButton.setOnClickListener {
+        editButton.setOnClickListener {
             this.finish()
         }
 
@@ -85,20 +85,20 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.loadingAnimation.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.textViewLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.recipeRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
-        binding.editPreferencesButton.visibility = if (isLoading) View.GONE else View.VISIBLE
-        binding.refreshRecipesButton.visibility = if (isLoading) View.GONE else View.VISIBLE
+        loadingAnimation.visibility = if (isLoading) View.VISIBLE else View.GONE
+        textViewLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        recyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
+        editButton.visibility = if (isLoading) View.GONE else View.VISIBLE
+        refreshButton.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     override fun onRecipeClick(recipe: Recipes) {
         val fragment = RecipeFragment.newInstance(recipe)
         val fragmentContainer = binding.fragmentContainer
         fragmentContainer.visibility = View.VISIBLE
-        binding.recipeRecyclerView.visibility = View.GONE
-        binding.editPreferencesButton.visibility = View.GONE
-        binding.refreshRecipesButton.visibility = View.GONE
+        recyclerView.visibility = View.GONE
+        editButton.visibility = View.GONE
+        refreshButton.visibility = View.GONE
 
         // Open RecipeFragment and pass the recipe data
         Log.d("RecipeActivity", "RECIPE CLICKED")

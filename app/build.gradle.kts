@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -42,16 +44,22 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation (libs.dagger)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.material)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,4 +77,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     debugImplementation (libs.leakcanary.android)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.material3)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    kapt (libs.androidx.room.compiler.v261)
+    implementation ("androidx.compose.material:material-icons-extended:1.7.6")
 }

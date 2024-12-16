@@ -13,10 +13,14 @@ class IngredientsViewModel : ViewModel() {
 
     fun fetchIngredients() {
        // TODO : Use retrofit to fetch ingredients from the API.  Uncomment once we get base URL.
-       /* val retrofit = Retrofit.Builder()
+       val retrofit = Retrofit.Builder()
              .baseUrl("https://api.example.com/")
              .addConverterFactory(GsonConverterFactory.create())
-             .build(); */
+             .build();
+
+//        val ingredientsApi = retrofit.create(IngredientsApi::class.java)
+//        val call = ingredientsApi.getIngredients()
+
     }
 
 }
