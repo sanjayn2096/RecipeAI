@@ -8,9 +8,13 @@ import androidx.room.PrimaryKey
 data class User (
     @PrimaryKey
     @ColumnInfo(name = "user_id")
-    val userId: Int,
+    val userId: String,
     @ColumnInfo(name = "user_name")
     val username: String,
+    @ColumnInfo(name = "user_first_name")
+    val firstName: String,
+    @ColumnInfo(name = "user_last_name")
+    val lastName: String,
     @ColumnInfo(name = "user_email")
     val email: String,
     @ColumnInfo(name = "user_password")
