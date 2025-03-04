@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("org.jetbrains.kotlin.kapt")
+    id ("com.google.gms.google-services")
     alias(libs.plugins.compose.compiler)
 }
 
@@ -60,9 +61,16 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.espresso.core)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("com.aallam.openai:openai-client:3.0.0")
+    implementation ("io.ktor:ktor-client-android:2.2.4")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation(libs.androidx.datastore.preferences)
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
@@ -83,4 +91,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     kapt (libs.androidx.room.compiler.v261)
     implementation ("androidx.compose.material:material-icons-extended:1.7.6")
+    // Jetpack Compose Navigation (for bottom bar & profile screen)
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+// Lifecycle runtime for Jetpack Compose
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+// Coil (for loading user avatar images)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 }

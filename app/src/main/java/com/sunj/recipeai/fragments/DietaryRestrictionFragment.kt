@@ -24,7 +24,7 @@ class DietaryRestrictionFragment : Fragment(R.layout.fragment_dietary_restrictio
         val nextButton: Button = view.findViewById(R.id.Button_next_dietary_restrictions)
         val backButton: ImageButton = view.findViewById(R.id.back_button_dietary_preferences)
 
-//        // Set a click listener for the button
+        // Set a click listener for the button
         nextButton.setOnClickListener {
             // Check which RadioButton is selected
             val diet: String = when {

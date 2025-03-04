@@ -1,23 +1,29 @@
 package com.sunj.recipeai.model
 
+import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 
 data class Recipes (
+    val recipeId: String,
     val recipeName: String,
     val image: String,
     val ingredients: String,
     val instructions: String,
     val cookingTime: String,
-    val cuisine: String
+    val cuisine: String,
+    var isFavorite: Boolean
 ) : Parcelable {
+    @SuppressLint("NewApi")
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readString().toString()
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readBoolean()
     ) {
     }
 

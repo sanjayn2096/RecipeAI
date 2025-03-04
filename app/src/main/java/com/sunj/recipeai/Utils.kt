@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import java.util.UUID
 
-//TODO : This class should hold all the Util functions used across the package.
-class Utils {
-
+fun generateRandomId(): String {
+    return UUID.randomUUID().toString() // Unique session ID
 }

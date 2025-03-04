@@ -9,7 +9,7 @@ data class User (
     @PrimaryKey
     @ColumnInfo(name = "user_id")
     val userId: String,
-    @ColumnInfo(name = "user_name")
+    @ColumnInfo(name = "user_username")
     val username: String,
     @ColumnInfo(name = "user_first_name")
     val firstName: String,

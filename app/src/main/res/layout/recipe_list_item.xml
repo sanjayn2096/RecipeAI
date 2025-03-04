@@ -1,18 +1,16 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/radius"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:orientation="horizontal"
     app:cardCornerRadius="20dp"
     app:cardBackgroundColor="#6A947A"
     app:cardElevation="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="8dp">
 
         <ImageView
@@ -25,12 +23,13 @@
             android:src="@drawable/img" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/text_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_toEndOf="@id/recipe_image"
+            android:layout_marginStart="8dp"
             android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingLeft="8dp">
+            android:paddingEnd="50dp"> <!-- Space for Fav Button -->
 
             <TextView
                 android:id="@+id/recipe_name"
@@ -55,7 +54,19 @@
                 android:layout_marginTop="4dp"
                 android:text="Cooking Time"
                 android:textSize="14sp" />
-
         </LinearLayout>
-    </LinearLayout>
+
+        <!-- Favorite Button at Bottom Right -->
+        <ImageButton
+            android:id="@+id/fav_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/unliked_favorite_icon" />
+
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -15,7 +15,7 @@ class LandingFragment : Fragment(R.layout.fragment_main) {
 
         // Set a click listener on the LinearLayout
         mainScreen.setOnClickListener {
-            findNavController().navigate(R.id.action_landingFragment_to_moodFragment)
+            //findNavController().navigate(R.id.action_landingFragment_to_moodFragment)
         }
     }
 }

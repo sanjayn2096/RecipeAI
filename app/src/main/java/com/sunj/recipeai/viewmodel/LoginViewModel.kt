@@ -1,99 +1,182 @@
 package com.sunj.recipeai.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
-import com.sunj.recipeai.database.User
-
+import com.google.firebase.auth.FirebaseAuth
+import com.sunj.recipeai.LoginRequest
+import com.sunj.recipeai.LoginResponse
+import com.sunj.recipeai.RetrofitClient
+import com.sunj.recipeai.SessionCheckRequest
+import com.sunj.recipeai.SessionCheckResponse
+import com.sunj.recipeai.SessionManager
+import com.sunj.recipeai.SignupRequest
+import com.sunj.recipeai.SignupResponse
 import com.sunj.recipeai.database.UserDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.sunj.recipeai.generateRandomId
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import org.json.JSONObject
 import java.util.UUID
 
-class LoginViewModel(userDb: UserDatabase) : ViewModel() {
+class LoginViewModel(
+    userDb : UserDatabase,
+    private val sessionManager: SessionManager
+) : ViewModel() {
+    // Indicates whether user was found.
+    private val _userStatus = MutableLiveData<Boolean>(true)
+    val userStatus: LiveData<Boolean> get() = _userStatus
 
+    private val _isLoading = MutableLiveData(true) // Initially true
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    // Indicates whether the user is currently logged in.
     private val _isLoggedIn = MutableLiveData<Boolean>(false)
     val isLoggedIn: LiveData<Boolean> = _isLoggedIn
 
+    // Holds any error messages to be displayed in an alert dialog.
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?> = _errorMessage
 
-    private val _userStatus = MutableLiveData<Boolean>(true)
-    val userStatus: LiveData<Boolean> = _userStatus
+    fun checkSession() {
+        val sessionId = sessionManager.getSession()
+        _isLoading.value = true
+        Log.d("LoginViewModel", "checkSession, Session ID: $sessionId")
+        if (sessionId != null) {
+            RetrofitClient.instance.checkSession(SessionCheckRequest(sessionId))
+                .enqueue(object : Callback<SessionCheckResponse> {
+                    override fun onResponse(
+                        call: Call<SessionCheckResponse>,
+                        response: Response<SessionCheckResponse>
+                    ) {
+                        val responseBody = response.body()
+                        Log.d("LoginViewModel", "checkSession, response = ${response.code()}")
+                        if (response.isSuccessful) {
+                            Log.d("LoginViewModel", "checkSession, response body = $responseBody")
+                            if(responseBody?.message != null) {
+                                _isLoggedIn.value = true
+                                _isLoading.value = false
+                            }
+                        } else {
+                            Log.d("LoginViewModel", "checkSession, response body = $responseBody")
+                            sessionManager.clearSession()
+                            _isLoading.value = false
+                            _isLoggedIn.value = false
+                        }
+                    }
 
-    private val userDao = userDb.userDao()
+                    override fun onFailure(call: Call<SessionCheckResponse>, t: Throwable) {
+                        _isLoading.value = false
+                        _isLoggedIn.value = false
+                    }
+                })
+        } else {
+            Log.d("LoginViewModel", "checkSession, No Session Saved")
+            _isLoading.value = false
+            _isLoggedIn.value = false
+        }
+    }
 
-    /**
-     * Attempts to log in with the given username and password.
-     * If successful, sets isLoggedIn to true.
-     * If no such user exists, sets userStatus to false (triggering the sign-up UI).
-     * If the user is found but password doesn't match, sets an errorMessage.
-     */
-    suspend fun login(username: String, password: String) {
-        withContext(Dispatchers.IO) {
-            val user = userDao.getUser(username, password)
-            if (user != null) {
-                _isLoggedIn.postValue(true)
-            } else {
-                // Check if user exists with a different password (wrong credentials)
-                val existingUser = userDao.getUserByUsername(username)
-                if (existingUser != null) {
-                    // User exists but password is incorrect
-                    _errorMessage.postValue("Invalid credentials. Please try again.")
+    fun login(email: String, password: String) {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    user?.getIdToken(true)?.addOnSuccessListener { result ->
+                        val firebaseToken = result.token
+                        if (firebaseToken != null) {
+                            val sessionId = generateRandomId() // Generate your own session ID
+                            sessionManager.saveSession(sessionId)
+                            Log.d("LoginViewModel", "Saving Session ID : " + sessionId)
+                            sendSessionToBackend(email, sessionId)
+                            _isLoggedIn.value = true
+                        } else {
+                            _errorMessage.value = "Failed to retrieve session"
+                        }
+                    }
                 } else {
-                    // User does not exist at all
-                    _userStatus.postValue(false)
+                    _errorMessage.value = task.exception?.localizedMessage ?: "Login failed"
                 }
             }
-        }
+            .addOnFailureListener {
+                _errorMessage.value = "Network error: ${it.message}"
+            }
+    }
+
+
+    fun sendSessionToBackend(email: String, sessionId: String) {
+        RetrofitClient.instance.login(LoginRequest(email, sessionId))
+            .enqueue(object : Callback<LoginResponse> {
+                override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                    Log.d("LoginViewModel", "save session response success code = " + response.isSuccessful)
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        Log.d("LoginViewModel", "Response body = $responseBody")
+                        if (responseBody!=null) {
+                            sessionManager.saveEmail(email)
+                            sessionManager.saveUserId(responseBody.userId!!)
+                        }
+                    } else {
+                        // Handle error responses manually
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("LoginViewModel", "save session Error response: $errorBody")
+                        _errorMessage.value = extractErrorMessage(errorBody)
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    _errorMessage.value = "save session Network error"
+                }
+            })
+    }
+
+
+
+    fun signup(email: String, password: String, firstName: String, lastName : String) {
+        RetrofitClient.instance.signup(SignupRequest(email, password, firstName, lastName))
+            .enqueue(object : Callback<SignupResponse> {
+                override fun onResponse(call: Call<SignupResponse>, response: Response<SignupResponse>) {
+                    Log.d("LoginViewModel", "response success code = " + response.isSuccessful)
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        Log.d("LoginViewModel", "response body = $responseBody")
+                        if (responseBody?.userId != null) {
+                            val sessionId = generateRandomId() // Generate your own session ID
+                            sessionManager.saveSession(sessionId)
+                            sessionManager.saveEmail(email)
+                            sessionManager.saveUserId(responseBody.userId)
+                            _isLoggedIn.value = true
+                        } else {
+                            _errorMessage.value = responseBody?.message ?: "Signup failed"
+                        }
+                    } else {
+                        // Handle error responses manually
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("LoginViewModel", "Error response: $errorBody")
+                        _errorMessage.value = extractErrorMessage(errorBody)
+                    }
+                }
+
+                override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                    _errorMessage.value = "Network error"
+                }
+            })
     }
 
     /**
-     * Attempts to sign up a new user with the given details.
-     * If successful, sets isLoggedIn to true.
-     * If not, sets an error message.
+     * Extracts the "error" message from a JSON error response.
      */
-    suspend fun signup(firstName: String, lastName: String, email: String, password: String) {
-        withContext(Dispatchers.IO) {
-            // Validate input
-            if (email.isBlank() || !email.contains("@")) {
-                _errorMessage.postValue("Please enter a valid email address.")
-                return@withContext
-            }
-
-            if (password.isBlank()) {
-                _errorMessage.postValue("Password cannot be empty.")
-                return@withContext
-            }
-
-            val username = email  // Use email as username for simplicity
-            // Check if user already exists
-            val existingUser = userDao.getUserByUsername(username)
-            if (existingUser != null) {
-                _errorMessage.postValue("User already exists. Please log in instead.")
-                return@withContext
-            }
-
-            // Create new user
-            val newUser = User(
-                userId = UUID.randomUUID().toString(),
-                email = email,
-                username = username,
-                password = password,
-                firstName = firstName,
-                lastName = lastName
-            )
-            userDao.insertUser(newUser)
-            _isLoggedIn.postValue(true)
+    private fun extractErrorMessage(errorBody: String?): String {
+        return try {
+            val jsonObject = JSONObject(errorBody ?: "{}")
+            jsonObject.optString("error", "Signup failed")
+        } catch (e: Exception) {
+            "Signup failed"
         }
     }
 
-    /**
-     * Clears the current error message.
-     */
     fun clearError() {
         _errorMessage.value = null
     }

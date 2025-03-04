@@ -6,12 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.sunj.recipeai.model.Recipes
 import kotlinx.coroutines.launch
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
+import com.sunj.recipeai.RetrofitClient
+import com.sunj.recipeai.SaveFavoriteRecipesRequest
+import com.sunj.recipeai.SaveFavoriteRecipesResponse
+import com.sunj.recipeai.SessionManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class RecipeViewModel(private val key: String, private val mSharedPreferences: SharedPreferences) : ViewModel() {
+class RecipeViewModel(private val key: String, private val sessionManager: SessionManager) : ViewModel() {
 
     private val _recipe = MutableLiveData<List<Recipes>>()
     val recipe: LiveData<List<Recipes>> get() = _recipe
@@ -19,7 +24,14 @@ class RecipeViewModel(private val key: String, private val mSharedPreferences: S
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _isBeingEdited = MutableLiveData<Boolean>()
+    val isBeingEdited: LiveData<Boolean> get() = _isBeingEdited
+
     private lateinit var repository: RecipeRepository
+
+    fun isBeingEdited() {
+        _isBeingEdited.postValue(true)
+    }
 
     fun callFetchRecipes() {
         if (key.isEmpty()) {
@@ -38,10 +50,10 @@ class RecipeViewModel(private val key: String, private val mSharedPreferences: S
     }
 
     private fun constructPrompt(): String {
-        val selectedDietaryRestriction = mSharedPreferences.getString("selected_dietary_restriction", "No Restrictions Apply")
-        val selectedCuisine = mSharedPreferences.getString("selected_cuisine_preference", "No Cuisine Selected")
-        val selectedMood = mSharedPreferences.getString("selected_mood", "")
-        val selectedCookingPreference = mSharedPreferences.getString("selected_cooking_preference", "")
+        val selectedDietaryRestriction = sessionManager.getDietRestrictions()
+        val selectedCuisine = sessionManager.getCuisine()
+        val selectedMood = sessionManager.getMood()
+        val selectedCookingPreference = sessionManager.getCookingPreference()
 
         return if (selectedMood == "lucky") {
             Log.d("RecipeViewModel", "selectedMood is I am feeling lucky")
@@ -56,10 +68,31 @@ class RecipeViewModel(private val key: String, private val mSharedPreferences: S
                     ", I prefer spending + $selectedCookingPreference + time on cooking " +
                     "and I feel like eating this cuisine :  + $selectedCuisine" +
                     "Output the recipes in this format. " +
-                    "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String} " +
+                    "Recipe = {'recipeId': uuid, 'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String} " +
                     "Return Array<Recipe>. The ingredients and instructions should be in bullet points. " +
                     "Mention the ingredients which are optional or replacements. " +
                     "Find a suitable image for this recipe and give me a public URL for it."
         }
     }
+
+    fun modifyFavoriteRecipe(userId: String, recipe: Recipes) {
+        RetrofitClient.instance.saveFavoriteRecipes(SaveFavoriteRecipesRequest(recipe, userId))
+            .enqueue(object : Callback<SaveFavoriteRecipesResponse> {
+                override fun onResponse(call: Call<SaveFavoriteRecipesResponse>, response: Response<SaveFavoriteRecipesResponse>) {
+                    Log.d("RecipeViewModel", "favoriteRecipe, response success code = " + response.isSuccessful)
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        Log.d("RecipeViewModel", "favoriteRecipe, response body = $responseBody")
+                    } else {
+                        // Handle error responses manually
+                        Log.e("RecipeViewModel", "favoriteRecipe, Error response: ${response.errorBody()?.string()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<SaveFavoriteRecipesResponse>, t: Throwable) {
+                    Log.e("RecipeViewModel", "favoriteRecipe, Network error: ${t.message}")
+                }
+            })
+    }
+
 }

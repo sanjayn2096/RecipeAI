@@ -9,14 +9,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.gson.Gson
 import com.sunj.recipeai.R
+import com.sunj.recipeai.SessionManager
 import com.sunj.recipeai.adapters.RecipeAdapter
 import com.sunj.recipeai.model.Recipes
 import com.sunj.recipeai.databinding.ActivityDisplayRecipeBinding
 import com.sunj.recipeai.fragments.RecipeFragment
+import com.sunj.recipeai.model.UserData
 import com.sunj.recipeai.viewmodel.RecipeViewModel
 import com.sunj.recipeai.viewmodel.ViewModelFactory
 
@@ -27,16 +31,20 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
     private lateinit var editButton: ImageButton
     private lateinit var refreshButton: ImageButton
     private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var sessionManager: SessionManager
 
     // Declare the View Binding object
     private lateinit var binding: ActivityDisplayRecipeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d("RecipeActivity", "onCreate() called")
         // Initialize View Binding
         binding = ActivityDisplayRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val userDataJson = intent.getStringExtra("userData")
+        val userData: UserData = Gson().fromJson(userDataJson, UserData::class.java)
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -46,6 +54,7 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         // Hide the action bar if available.
         supportActionBar?.hide()
 
+        sessionManager = SessionManager(this)
         recyclerView = binding.recipeRecyclerView
         loadingAnimation = binding.loadingAnimation
         textViewLoading = binding.textViewLoading
@@ -57,7 +66,13 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        val recipeAdapter = RecipeAdapter(this@RecipeActivity)
+        val recipeAdapter = RecipeAdapter(
+            this@RecipeActivity,
+            recipeViewModel,
+            sessionManager,
+            lifecycleScope,
+            userData
+        )
 
         // Observe the recipe list to update RecyclerView data
         recipeViewModel.recipe.observe(this, Observer { feed ->
@@ -76,7 +91,9 @@ class RecipeActivity : AppCompatActivity(), RecipeAdapter.OnRecipeClickListener 
 
         // Set click listeners using the binding object
         editButton.setOnClickListener {
-            this.finish()
+            Log.d("RecipeActivity", "EDIT BUTTON CLICKED")
+            recipeViewModel.isBeingEdited()
+            finish()
         }
 
         refreshButton.setOnClickListener {

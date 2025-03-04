@@ -8,7 +8,7 @@
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipe_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="600sp"
         android:layout_marginTop="40sp"
         android:scrollbars="vertical"

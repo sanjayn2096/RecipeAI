@@ -2,16 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/moodFragment">
 
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.sunj.recipeai.fragments.LandingFragment"
-        tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_landingFragment_to_moodFragment"
-            app:destination="@id/moodFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/mainFragment"-->
+<!--        android:name="com.sunj.recipeai.fragments.LandingFragment"-->
+<!--        tools:layout="@layout/fragment_main">-->
+<!--        <action-->
+<!--            android:id="@+id/action_landingFragment_to_moodFragment"-->
+<!--            app:destination="@id/moodFragment" />-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/moodFragment"

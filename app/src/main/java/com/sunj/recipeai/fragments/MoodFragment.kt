@@ -11,6 +11,7 @@ import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.sunj.recipeai.R
+import com.sunj.recipeai.activities.HomeActivity
 import com.sunj.recipeai.activities.RecipeActivity
 
 class MoodFragment : Fragment(R.layout.fragment_mood) {
@@ -54,7 +55,9 @@ class MoodFragment : Fragment(R.layout.fragment_mood) {
         }
 
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            requireActivity().finish()
+            val intent = Intent(requireContext(), HomeActivity::class.java)
+            startActivity(intent)
         }
     }
 }
