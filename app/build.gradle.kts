@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id ("com.google.gms.google-services")
     alias(libs.plugins.compose.compiler)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -90,6 +91,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     kapt (libs.androidx.room.compiler.v261)
+    implementation ("com.airbnb.android:lottie-compose:6.0.0")
+
     implementation ("androidx.compose.material:material-icons-extended:1.7.6")
     // Jetpack Compose Navigation (for bottom bar & profile screen)
     implementation("androidx.navigation:navigation-compose:2.7.7")

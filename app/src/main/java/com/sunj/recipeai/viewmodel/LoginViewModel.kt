@@ -5,21 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.sunj.recipeai.LoginRequest
-import com.sunj.recipeai.LoginResponse
-import com.sunj.recipeai.RetrofitClient
-import com.sunj.recipeai.SessionCheckRequest
-import com.sunj.recipeai.SessionCheckResponse
+import com.sunj.recipeai.network.LoginRequest
+import com.sunj.recipeai.network.LoginResponse
+import com.sunj.recipeai.network.RetrofitClient
+import com.sunj.recipeai.network.SessionCheckRequest
+import com.sunj.recipeai.network.SessionCheckResponse
 import com.sunj.recipeai.SessionManager
-import com.sunj.recipeai.SignupRequest
-import com.sunj.recipeai.SignupResponse
+import com.sunj.recipeai.network.SignupRequest
+import com.sunj.recipeai.network.SignupResponse
 import com.sunj.recipeai.database.UserDatabase
 import com.sunj.recipeai.generateRandomId
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import org.json.JSONObject
-import java.util.UUID
 
 class LoginViewModel(
     userDb : UserDatabase,

@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.sunj.recipeai.RetrofitClient
-import com.sunj.recipeai.SaveFavoriteRecipesRequest
-import com.sunj.recipeai.SaveFavoriteRecipesResponse
+import com.sunj.recipeai.network.RetrofitClient
+import com.sunj.recipeai.network.SaveFavoriteRecipesRequest
+import com.sunj.recipeai.network.SaveFavoriteRecipesResponse
 import com.sunj.recipeai.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,13 +34,17 @@ class RecipeViewModel(private val key: String, private val sessionManager: Sessi
     }
 
     fun callFetchRecipes() {
+        Log.d("RecipeViewModel" , "calling fetchRecipes")
         if (key.isEmpty()) {
             throw Exception("Key is null, error in fetching the recipes")
         } else {
+            Log.d("RecipeViewModel" , "inside else fetchRecipes")
             repository = RecipeRepository(key)
             _isLoading.value = true
             viewModelScope.launch {
+                Log.d("RecipeViewModel" , "launching fetchrecipes")
                 val prompt = constructPrompt()
+                Log.d("Prompt = ", prompt)
                 val resp = repository.fetchRecipes(prompt)
                 println(resp)
                 _recipe.postValue(resp)
@@ -55,12 +59,13 @@ class RecipeViewModel(private val key: String, private val sessionManager: Sessi
         val selectedMood = sessionManager.getMood()
         val selectedCookingPreference = sessionManager.getCookingPreference()
 
-        return if (selectedMood == "lucky") {
-            Log.d("RecipeViewModel", "selectedMood is I am feeling lucky")
+        return if (selectedMood == "I am feeling lucky! (Suggest any recipe)") {
             "You are my recipe book. I'm feeling Lucky today, please suggest me any recipe "+
             "Output the recipes in this format. " +
-                    "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String} " +
-                    "Return Array<Recipe>. The ingredients and instructions should be in bullet points. Mention the ingredients which are optional or replacements. " +
+                    "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String, 'nutritionalValue': NutritionalValue} " +
+                    "NutritionalValue should be an object which has mandatory fields like 'calories' : String, 'protein': String , 'carbs' : String, 'fat' : String, 'vitamins' : String, 'numberOfServings' : Int"+
+                    "Calories should be in the format 'x' kcal. Protein, Fat, Carbs, Vitamins should be in grams. output should be like 'x' g. If Anything is not defined, just output N/A"+
+                    "Return Array<Recipe>. The ingredients and instructions should be in bullet points. Mention the ingredients which are optional or replacements. " + "Provide the nutritional value, how many calories per serving of the dish"+
                     "Find a suitable image for this recipe and give me a public URL for it."
         } else {
                     "You are my recipe book. Suggest some recipes for me based on the following preferences." +
@@ -68,9 +73,11 @@ class RecipeViewModel(private val key: String, private val sessionManager: Sessi
                     ", I prefer spending + $selectedCookingPreference + time on cooking " +
                     "and I feel like eating this cuisine :  + $selectedCuisine" +
                     "Output the recipes in this format. " +
-                    "Recipe = {'recipeId': uuid, 'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String} " +
+                    "Recipe = {'recipeId': uuid, 'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String, 'nutritionalValue':NutritionalValue} " +
+                            "NutritionalValue should be an object which has mandatory fields like 'calories' : String, 'protein': String , 'carbs' : String, 'fat' : String, 'vitamins' : String, 'numberOfServings' : Int"+
+                            "Calories should be in the format 'x' kcal. Protein, Fat, Carbs, Vitamins should be in grams. output should be like 'x' g. If Anything is not defined, just output N/A" +
                     "Return Array<Recipe>. The ingredients and instructions should be in bullet points. " +
-                    "Mention the ingredients which are optional or replacements. " +
+                    "Mention the ingredients which are optional or replacements. " + "Provide the nutritional value, how much calories per serving of the dish" +
                     "Find a suitable image for this recipe and give me a public URL for it."
         }
     }

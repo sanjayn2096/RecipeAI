@@ -2,13 +2,10 @@ package com.sunj.recipeai.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -61,6 +57,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.sunj.recipeai.R
+import com.sunj.recipeai.ui.appLogo
 import com.sunj.recipeai.viewmodel.LoginViewModel
 import com.sunj.recipeai.viewmodel.ViewModelFactory
 import kotlinx.coroutines.launch
@@ -76,8 +73,6 @@ class LoginActivity : AppCompatActivity() {
             this, ViewModelFactory(applicationContext)
         )[LoginViewModel::class.java]
 
-        //setContent { MainScreen() }
-
         // Check if user is already logged in
         lifecycleScope.launch {
             loginViewModel.checkSession() // Start session validation
@@ -85,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.isLoading.observe(this) { isLoading ->
             if (isLoading) {
-                setContent { MainScreen() }  // Show loading screen
+                setContent { LoadingScreen() }  // Show loading screen
             } else {
                 loginViewModel.isLoggedIn.observe(this) { isLoggedIn ->
                     if (isLoggedIn) {
@@ -116,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Navigate to HomeActivity on success
+        // NavNavigate to HomeActivity on success
         LaunchedEffect(isLoggedIn) {
             if (isLoggedIn) {
                 val intent = Intent(this@LoginActivity, HomeActivity::class.java)
@@ -170,7 +165,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun MainScreen() {
+    fun LoadingScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -180,22 +175,7 @@ class LoginActivity : AppCompatActivity() {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(id = R.string.recipeai),
-                    fontSize = 36.sp,
-                    fontFamily = FontFamily(Font(R.font.titan_one)),
-                    color = colorResource(id = R.color.custom_green),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    style = TextStyle(
-                        shadow = Shadow(
-                            color = colorResource(id = R.color.light_gray),
-                            offset = Offset(0f, 7f),
-                            blurRadius = 1f
-                        )
-                    )
-                )
-
+                appLogo(Modifier.padding(bottom = 8.dp))
                 Text(
                     text = stringResource(id = R.string.let_s_cook_something_nice_today),
                     fontSize = 15.sp,
@@ -219,8 +199,12 @@ class LoginActivity : AppCompatActivity() {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
+            appLogo(Modifier.padding(bottom = 8.dp).align(Alignment.CenterHorizontally))
+
+            Spacer(Modifier.height(50.dp))
+
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 maxLines = 1,
@@ -320,6 +304,11 @@ class LoginActivity : AppCompatActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
+            appLogo(Modifier.padding(bottom = 8.dp).align(Alignment.CenterHorizontally))
+
+            Spacer(Modifier.height(50.dp))
+
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 value = firstName,
@@ -426,6 +415,6 @@ class LoginActivity : AppCompatActivity() {
     @Preview(showBackground = true)
     @Composable
     fun PreviewLoginScreen() {
-        MainScreen()
+        LoadingScreen()
     }
 }

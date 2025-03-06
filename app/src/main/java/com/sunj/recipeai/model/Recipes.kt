@@ -12,7 +12,8 @@ data class Recipes (
     val instructions: String,
     val cookingTime: String,
     val cuisine: String,
-    var isFavorite: Boolean
+    val nutritionalValue: NutritionalValue,
+    var isFavorite: Boolean = false
 ) : Parcelable {
     @SuppressLint("NewApi")
     constructor(parcel: Parcel) : this(
@@ -23,9 +24,9 @@ data class Recipes (
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
+        parcel.readParcelable<NutritionalValue>(NutritionalValue::class.java.classLoader)!!,
         parcel.readBoolean()
-    ) {
-    }
+    )
 
     override fun describeContents(): Int {
         TODO("Not yet implemented")

@@ -1,4 +1,4 @@
-package com.sunj.recipeai
+package com.sunj.recipeai.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

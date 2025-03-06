@@ -23,11 +23,18 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
+    bodyMedium = TextStyle(
+        fontFamily = SourceSansPro,
+        fontWeight = FontWeight.Thin,
+        fontSize = 10.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
     headlineMedium = TextStyle(
         fontFamily = SourceSansPro,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
-    )
+    ),
 )
     /* Other default text styles to override
     titleLarge = TextStyle(

@@ -1,4 +1,4 @@
-package com.sunj.recipeai
+package com.sunj.recipeai.network
 
 import com.sunj.recipeai.model.Recipes
 import com.sunj.recipeai.model.UserData
@@ -7,7 +7,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Query
 
 data class LoginRequest(val email: String, val token_id: String)

@@ -4,15 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sunj.recipeai.RetrofitClient
-import com.sunj.recipeai.SaveFavoriteRecipesRequest
-import com.sunj.recipeai.SaveFavoriteRecipesResponse
+import com.sunj.recipeai.network.RetrofitClient
 import com.sunj.recipeai.SessionManager
-import com.sunj.recipeai.SignoutRequest
-import com.sunj.recipeai.SignoutResponse
-import com.sunj.recipeai.SignupRequest
-import com.sunj.recipeai.SignupResponse
-import com.sunj.recipeai.model.Recipes
+import com.sunj.recipeai.network.SignoutRequest
+import com.sunj.recipeai.network.SignoutResponse
 import com.sunj.recipeai.model.UserData
 import retrofit2.Call
 import retrofit2.Callback
@@ -68,25 +63,4 @@ class HomeViewModel(private val sessionManager: SessionManager) : ViewModel() {
                 }
             })
     }
-
-
-
-//    fun saveUserDetails(email: String)  {
-//        RetrofitClient.instance.saveUserData(GetUserDetailRequest(email))
-//            .enqueue(object : Callback<UserData> {
-//                override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
-//                    Log.d("LoginViewModel", "response success code = " + response.isSuccessful)
-//                    if (response.isSuccessful) {
-//                        _userLiveData.postValue(response.body())
-//                    } else {
-//                        Log.e("LoginViewModel", "Error response: ${response.errorBody()?.string()}")
-//                        _userLiveData.postValue(null)
-//                    }
-//                }
-//                override fun onFailure(call: Call<UserData>, t: Throwable) {
-//                    Log.e("LoginViewModel", "Network error: ${t.message}")
-//                    _userLiveData.postValue(null)
-//                }
-//            })
-//    }
 }

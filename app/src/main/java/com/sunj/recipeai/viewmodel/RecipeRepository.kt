@@ -24,11 +24,11 @@ class RecipeRepository (private val key : String) {
                 // Assuming generateContent returns a JSON string
                 val jsonResponse = generativeModel.generateContent(prompt)
 
+                Log.d("RecipeRepository", "JSON Response(jsonResponse) = " + jsonResponse.text)
                 // Parse the JSON response into a List<Recipes> using Gson
                 val gson = Gson()
                 val listType = object : TypeToken<List<Recipes>>() {}.type
                 gson.fromJson(jsonResponse.text, listType) as List<Recipes>
-                //Log.d("RecipeActivity", "Recipes: $recipes")
 
             } catch (e: Exception) {
                 e.printStackTrace() // Handle the exception
