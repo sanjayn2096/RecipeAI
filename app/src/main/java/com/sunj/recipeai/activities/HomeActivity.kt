@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
+import com.sunj.recipeai.SessionManager
 import com.sunj.recipeai.model.UserData
 import com.sunj.recipeai.screens.HomeScreen
 import com.sunj.recipeai.viewmodel.HomeViewModel
@@ -17,6 +18,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class HomeActivity : AppCompatActivity() {
 
         homeViewModel.getUserDetails()
 
+        sessionManager = SessionManager(this)
+
         homeViewModel.userLiveData.observe(this) {
             Log.d("HomeActivity", "user live data changed" + it?.favorite_recipes)
             setContent {
@@ -43,7 +47,7 @@ class HomeActivity : AppCompatActivity() {
     @Composable
     fun RecipeAIApp(userData: UserData?) {
         val navController = rememberNavController()
-        HomeScreen(navController, userData, homeViewModel, recipeViewModel)
+        HomeScreen(navController, userData, homeViewModel, recipeViewModel, sessionManager)
     }
 
 }

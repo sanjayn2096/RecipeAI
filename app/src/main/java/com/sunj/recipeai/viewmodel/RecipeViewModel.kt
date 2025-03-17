@@ -58,24 +58,33 @@ class RecipeViewModel(private val key: String, private val sessionManager: Sessi
         val selectedCuisine = sessionManager.getCuisine()
         val selectedMood = sessionManager.getMood()
         val selectedCookingPreference = sessionManager.getCookingPreference()
+        val customPreference = sessionManager.getPreference("customPreference")
 
-        return if (selectedMood == "I am feeling lucky! (Suggest any recipe)") {
+        return if(customPreference != "") {
+            "You are my recipe book. I feel Like cooking this, " + customPreference + ". Suggest me some recipes for me." +
+                    "Output the recipes in this format. " +
+                    "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String, 'nutritionalValue': NutritionalValue} " +
+                    "NutritionalValue should be an object which has mandatory fields like 'calories' : String, 'protein': String , 'carbs' : String, 'fat' : String, 'vitamins' : String, 'numberOfServings' : Int"+
+                    "Calories should be in the format 'x' kcal. Protein, Fat, Carbs, Vitamins should be in grams. output should be like 'x' g. If Anything is not defined, just output N/A"+
+                    "Return Array<Recipe>. The ingredients and instructions should be in bullet points. Mention the ingredients which are optional or replacements. " + "Provide the nutritional value, how many calories per serving of the dish"+
+                    "Find a suitable image for this recipe and give me a public URL for it."
+        } else if (selectedMood == "I am feeling lucky! (Suggest any recipe)") {
             "You are my recipe book. I'm feeling Lucky today, please suggest me any recipe "+
-            "Output the recipes in this format. " +
+                    "Output the recipes in this format. " +
                     "Recipe = {'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String, 'nutritionalValue': NutritionalValue} " +
                     "NutritionalValue should be an object which has mandatory fields like 'calories' : String, 'protein': String , 'carbs' : String, 'fat' : String, 'vitamins' : String, 'numberOfServings' : Int"+
                     "Calories should be in the format 'x' kcal. Protein, Fat, Carbs, Vitamins should be in grams. output should be like 'x' g. If Anything is not defined, just output N/A"+
                     "Return Array<Recipe>. The ingredients and instructions should be in bullet points. Mention the ingredients which are optional or replacements. " + "Provide the nutritional value, how many calories per serving of the dish"+
                     "Find a suitable image for this recipe and give me a public URL for it."
         } else {
-                    "You are my recipe book. Suggest some recipes for me based on the following preferences." +
+            "You are my recipe book. Suggest some recipes for me based on the following preferences." +
                     "I am feeling : + $selectedMood + " + ", I have the following diet restrictions : :  + $selectedDietaryRestriction " +
                     ", I prefer spending + $selectedCookingPreference + time on cooking " +
                     "and I feel like eating this cuisine :  + $selectedCuisine" +
                     "Output the recipes in this format. " +
                     "Recipe = {'recipeId': uuid, 'recipeName': string, 'imageUrl': String, 'ingredients': String, 'instructions' : String, 'cookingTime' : String, 'cuisine' : String, 'nutritionalValue':NutritionalValue} " +
-                            "NutritionalValue should be an object which has mandatory fields like 'calories' : String, 'protein': String , 'carbs' : String, 'fat' : String, 'vitamins' : String, 'numberOfServings' : Int"+
-                            "Calories should be in the format 'x' kcal. Protein, Fat, Carbs, Vitamins should be in grams. output should be like 'x' g. If Anything is not defined, just output N/A" +
+                    "NutritionalValue should be an object which has mandatory fields like 'calories' : String, 'protein': String , 'carbs' : String, 'fat' : String, 'vitamins' : String, 'numberOfServings' : Int"+
+                    "Calories should be in the format 'x' kcal. Protein, Fat, Carbs, Vitamins should be in grams. output should be like 'x' g. If Anything is not defined, just output N/A" +
                     "Return Array<Recipe>. The ingredients and instructions should be in bullet points. " +
                     "Mention the ingredients which are optional or replacements. " + "Provide the nutritional value, how much calories per serving of the dish" +
                     "Find a suitable image for this recipe and give me a public URL for it."

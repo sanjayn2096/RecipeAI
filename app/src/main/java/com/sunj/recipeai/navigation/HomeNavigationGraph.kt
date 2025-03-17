@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.gson.Gson
+import com.sunj.recipeai.SessionManager
 import com.sunj.recipeai.model.Recipes
 import com.sunj.recipeai.model.UserData
 import com.sunj.recipeai.screens.FavoriteRecipesScreen
@@ -19,10 +20,10 @@ import com.sunj.recipeai.screens.ScreenWithBackButton
 import com.sunj.recipeai.screens.ShowRecipe
 
 @Composable
-fun HomeNavigationGraph(navController: NavHostController, userData: UserData?) {
+fun HomeNavigationGraph(navController: NavHostController, userData: UserData?, sessionManager: SessionManager) {
     NavHost(navController, startDestination = "home") {
         // Home does not have a back button
-        composable("home") { HomeContent() }
+        composable("home") { HomeContent(navController, sessionManager) }
         composable(GeneratorScreen.Mood.route) { PromptScreen(navController, GeneratorScreen.Mood.route) }
         composable(GeneratorScreen.DietRestrictions.route) { PromptScreen(navController, GeneratorScreen.DietRestrictions.route) }
         composable(GeneratorScreen.CuisinePreference.route) { PromptScreen(navController, GeneratorScreen.CuisinePreference.route) }

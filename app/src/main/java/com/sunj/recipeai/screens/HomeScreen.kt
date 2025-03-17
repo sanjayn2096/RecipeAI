@@ -34,9 +34,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -45,6 +49,7 @@ import androidx.navigation.compose.*
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.sunj.recipeai.R
+import com.sunj.recipeai.SessionManager
 import com.sunj.recipeai.activities.LoginActivity
 import com.sunj.recipeai.model.UserData
 import com.sunj.recipeai.navigation.HomeNavigationGraph
@@ -57,7 +62,8 @@ import com.sunj.recipeai.viewmodel.RecipeViewModel
 fun HomeScreen(navController: NavHostController,
                userData: UserData?,
                homeViewModel: HomeViewModel,
-               recipeViewModel: RecipeViewModel
+               recipeViewModel: RecipeViewModel,
+               sessionManager: SessionManager
 ) {
     val selectedTab = remember { mutableStateOf(BottomNavItem.Home) }
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -79,7 +85,7 @@ fun HomeScreen(navController: NavHostController,
     LaunchedEffect(isBeingEdited) {
         Log.d("HomeScreen", "Recipe Being Edited = $isBeingEdited")
         if (isBeingEdited == true) {
-           navController.navigate(GeneratorScreen.Mood.route)
+            navController.navigate(GeneratorScreen.Mood.route)
         }
     }
 
@@ -95,7 +101,7 @@ fun HomeScreen(navController: NavHostController,
             }
         ) { innerPadding ->
             Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-                HomeNavigationGraph(navController, userData)
+                HomeNavigationGraph(navController, userData, sessionManager)
             }
         }
     }
@@ -159,7 +165,7 @@ fun BottomNavigationBar(selectedTab: MutableState<BottomNavItem>, navController:
                         contentDescription = item.label,
                         tint = colorResource(item.color),
                     )
-                       },
+                },
                 label = { Text(item.label) },
                 selected = selectedTab.value == item,
                 onClick = {
@@ -182,7 +188,9 @@ enum class BottomNavItem(val label: String, val icon: ImageVector, val color: In
 }
 
 @Composable
-fun HomeContent() {
+fun HomeContent(navController: NavHostController, sessionManager: SessionManager) {
+    var userInput by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -190,13 +198,34 @@ fun HomeContent() {
                 painter = painterResource(id = R.drawable.bg_regular), // Your drawable
                 contentScale = ContentScale.Crop // Crop to fit screen
             )
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Welcome to RecipeAI, Your space to create your own recipes.",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp))
-    }
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
+        TextField(
+            value = userInput,
+            onValueChange = { userInput = it },
+            label = { Text("What do you feel like eating?") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+        )
+
+        Button(
+            onClick = {
+                sessionManager.savePreference("customPreference", userInput)
+                navController.navigate("recipeActivity") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Generate")
+        }
+    }
 }
+
 

@@ -77,7 +77,12 @@ class SessionManager(context: Context) {
             GeneratorScreen.DietRestrictions.route -> saveDietRestrictions(selectedOption)
             GeneratorScreen.CuisinePreference.route -> saveCuisine(selectedOption)
             GeneratorScreen.CookingPreferences.route -> saveCookingPreference(selectedOption)
+            "customPreference" -> saveCustomPreference(selectedOption)
         }
+    }
+
+    private fun saveCustomPreference(customText: String) {
+        prefs.edit().putString("customPreference", customText).apply()
     }
 
     fun getPreference(title: String): String? {
@@ -86,6 +91,7 @@ class SessionManager(context: Context) {
             GeneratorScreen.DietRestrictions.route -> prefs.getString(GeneratorScreen.DietRestrictions.route, "No Diet Restrictions")
             GeneratorScreen.CookingPreferences.route -> prefs.getString(GeneratorScreen.CookingPreferences.route, "No Cooking Preferences")
             GeneratorScreen.CuisinePreference.route -> prefs.getString(GeneratorScreen.CuisinePreference.route, "No Cuisine Selected")
+            "customPreference" -> prefs.getString("customPreference", "")
             else -> null
         }
     }
